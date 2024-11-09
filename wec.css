@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.input-section {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.grades-section {
+    display: none;
+    margin-top: 20px;
+}
+
+.grade-inputs {
+    margin-bottom: 10px;
+}
+
+.grade-inputs label {
+    display: inline-block;
+    width: 200px;
+}
+
+.grade-inputs input {
+    width: 150px;
+}
+
+#results {
+    display: none;
+    margin-top: 30px;
+}
+
+#sgpa-display, #cgpa-display {
+    margin-top: 10px;
+    font-size: 18px;
+    color: #333;
+}
