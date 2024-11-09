@@ -9,6 +9,8 @@
 <body>
     <div class="container">
         <h1>SGPA and CGPA Calculator</h1>
+
+        <!-- Input form -->
         <div class="input-section">
             <label for="student-name">Enter Student Name:</label>
             <input type="text" id="student-name" placeholder="Enter Student Name">
@@ -19,11 +21,14 @@
             <button onclick="generateGradeInputs()">Generate Grade Inputs</button>
         </div>
 
+        <!-- Grade input form -->
         <div id="grades-section" class="grades-section">
             <form id="grade-form">
+                <!-- Dynamic subject inputs will be inserted here -->
             </form>
         </div>
 
+        <!-- SGPA & CGPA result -->
         <div id="results">
             <h3>Results</h3>
             <div id="sgpa-display"></div>
