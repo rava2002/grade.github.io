@@ -1,3 +1,4 @@
+// Define grading scale mapping
 const gradePoints = {
     "S": 10,
     "A": 9,
@@ -8,8 +9,8 @@ const gradePoints = {
     "F": 0
 };
 
+// Predefined subjects and credits for each semester
 const semesterData = {
-    // Predefined subject and credits data
     1: {
         "MA201 Mathematics I": 4,
         "PH201 Physics": 4,
@@ -19,9 +20,76 @@ const semesterData = {
         "PH202 Physics Laboratory": 1.5,
         "CY202 Chemistry Laboratory": 1.5
     },
-    // Add other semesters here...
+    2: {
+        "MA202 Mathematics II": 4,
+        "EE201 Basic Electrical Engineering": 4,
+        "CS201 Programming for Problem Solving": 3,
+        "ME202 Engineering Graphics and Computer Aided Drawing": 3,
+        "CE201 Environmental Science": 0,
+        "EE202 Basic Electrical Engineering Laboratory": 1.5,
+        "CS202 Programming Laboratory": 1.5
+    },
+    3: {
+        "SH201 Biology for Engineers": 2,
+        "EC235 Electronic Devices and Digital Systems": 3,
+        "CS203 Computer Organization and Architecture": 4,
+        "CS204 Data Structures": 3,
+        "CS205 Object Oriented Programming Languages": 3,
+        "EC236 Electronic Devices and Digital Systems Laboratory": 1.5,
+        "CS206 Data Structures Laboratory": 1.5,
+        "CS207 Object Oriented Programming Languages Laboratory": 1.5,
+        "SH202 Indian Constitution": 0
+    },
+    4: {
+        "MA206 Mathematics for Computing": 4,
+        "CS208 Operating Systems": 3,
+        "CS209 Design and Analysis of Algorithms": 3,
+        "CS210 Database Management Systems": 3,
+        "CS211 Software Engineering": 4,
+        "CS212 Operating System Laboratory": 1.5,
+        "CS213 Design and Analysis of Algorithms Laboratory": 1.5,
+        "CS214 Database Management Systems Laboratory": 1.5
+    },
+    5: {
+        "HS202 Industrial Economics and Management": 3,
+        "CS215 Platform Technologies": 3,
+        "CS216 Computer Networks": 3,
+        "CS217 Automata Theory and Compiler Design": 4,
+        "CSYXX Professional Elective Course - I": 3,
+        "CS218 Platform Technologies Laboratory": 1.5,
+        "CS219 Computer Networks Laboratory": 1.5,
+        "SH203 Essence of Indian Traditional Knowledge": 0
+    },
+    6: {
+        "EP201 Entrepreneurship": 2,
+        "CS220 Microprocessors and Microcontrollers": 3,
+        "CS221 Web Technologies": 3,
+        "CS222 Information Security": 4,
+        "CSYXX Professional Elective Course - II": 3,
+        "CSYXX Professional Elective Course - III": 3,
+        "CS223 Microprocessors and Microcontrollers Laboratory": 1.5,
+        "CS224 Web Technologies Laboratory": 1.5
+    },
+    7: {
+        "CS225 Artificial Intelligence": 3,
+        "CS226 Parallel and Distributed Systems": 4,
+        "CS227 Data Science Essentials": 4,
+        "CSYXX Professional Elective Course - IV": 3,
+        "CSYXX Professional Elective Course - V": 3,
+        "CS228 Artificial Intelligence Laboratory": 1.5,
+        "CS229 Seminar": 1,
+        "CS230 Professional Ethics": 0
+    },
+    8: {
+        "SWOXX Open Elective through SWAYAM": 2,
+        "SWOXX Open Elective through SWAYAM": 2,
+        "CS231 Comprehensive Test": 1,
+        "CS232 Internship": 2,
+        "CS233 Project Work": 8
+    }
 };
 
+// Function to generate the grade input fields dynamically
 function generateGradeInputs() {
     const numSemesters = document.getElementById("num-semesters").value;
     const gradesSection = document.getElementById("grades-section");
@@ -32,9 +100,11 @@ function generateGradeInputs() {
         return;
     }
 
+    // Clear previous form
     gradeForm.innerHTML = "";
     gradesSection.style.display = "block";
 
+    // Loop through each semester and generate subject input fields
     for (let semester = 1; semester <= numSemesters; semester++) {
         if (!semesterData[semester]) continue;
 
@@ -60,40 +130,54 @@ function generateGradeInputs() {
     gradeForm.appendChild(submitButton);
 }
 
+// Function to calculate SGPA and CGPA
 function calculateSGPAAndCGPA() {
     const studentName = document.getElementById("student-name").value;
     const numSemesters = document.getElementById("num-semesters").value;
-
+    let totalWeightedPoints = 0;
     let totalCredits = 0;
-    let weightedGradePointsSum = 0;
-    let totalSemesterCredits = 0;
-    let totalSemesterGradePoints = 0;
+    let semesterResults = [];
 
     for (let semester = 1; semester <= numSemesters; semester++) {
         if (!semesterData[semester]) continue;
 
-        let semesterGradePointsSum = 0;
-        let semesterCredits = 0;
+        let semesterTotalPoints = 0;
+        let semesterTotalCredits = 0;
 
         const subjects = semesterData[semester];
         for (const [subject, credit] of Object.entries(subjects)) {
-            const grade = document.getElementById(`grade-${semester}-${subject}`).value.toUpperCase();
-            const gradePoint = gradePoints[grade] || 0;
-
-            semesterCredits += credit;
-            semesterGradePointsSum += (gradePoint * credit);
+            const gradeInput = document.getElementById(`grade-${semester}-${subject}`).value.toUpperCase();
+            const gradePoint = gradePoints[gradeInput];
+            if (gradePoint !== undefined) {
+                semesterTotalPoints += gradePoint * credit;
+                semesterTotalCredits += credit;
+            }
         }
 
-        totalCredits += semesterCredits;
-        weightedGradePointsSum += semesterGradePointsSum;
-        totalSemesterCredits += semesterCredits;
-        totalSemesterGradePoints += semesterGradePointsSum;
+        const sgpa = semesterTotalCredits > 0 ? semesterTotalPoints / semesterTotalCredits : 0;
+        semesterResults.push({ semester, sgpa });
+        totalWeightedPoints += semesterTotalPoints;
+        totalCredits += semesterTotalCredits;
     }
 
-    const sgpa = (weightedGradePointsSum / totalCredits).toFixed(2);
-    const cgpa = (totalSemesterGradePoints / totalSemesterCredits).toFixed(2);
+    const cgpa = totalCredits > 0 ? totalWeightedPoints / totalCredits : 0;
 
-    document.getElementById("sgpa-display").innerHTML = `SGPA: ${sgpa}`;
-    document.getElementById("cgpa-display").innerHTML = `CGPA: ${cgpa}`;
+    // Display results
+    displayResults(semesterResults, cgpa);
+}
+
+// Function to display SGPA and CGPA results
+function displayResults(semesterResults, cgpa) {
+    const sgpaDisplay = document.getElementById("sgpa-display");
+    const cgpaDisplay = document.getElementById("cgpa-display");
+
+    sgpaDisplay.innerHTML = "<strong>SGPA for Each Semester:</strong><ul>";
+    semesterResults.forEach(result => {
+        sgpaDisplay.innerHTML += `<li>Semester ${result.semester}: ${result.sgpa.toFixed(2)}</li>`;
+    });
+    sgpaDisplay.innerHTML += "</ul>";
+
+    cgpaDisplay.innerHTML = `<strong>CGPA: </strong>${cgpa.toFixed(2)}`;
+
     document.getElementById("results").style.display = "block";
 }
