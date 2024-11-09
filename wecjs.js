@@ -1,4 +1,3 @@
-// Define grading scale mapping
 const gradePoints = {
     "S": 10,
     "A": 9,
@@ -9,7 +8,6 @@ const gradePoints = {
     "F": 0
 };
 
-// Predefined subjects and credits for each semester
 const semesterData = {
     1: {
         "MA201 Mathematics I": 4,
@@ -89,7 +87,6 @@ const semesterData = {
     }
 };
 
-// Function to generate the grade input fields dynamically
 function generateGradeInputs() {
     const numSemesters = document.getElementById("num-semesters").value;
     const gradesSection = document.getElementById("grades-section");
@@ -100,11 +97,9 @@ function generateGradeInputs() {
         return;
     }
 
-    // Clear previous form
     gradeForm.innerHTML = "";
     gradesSection.style.display = "block";
 
-    // Loop through each semester and generate subject input fields
     for (let semester = 1; semester <= numSemesters; semester++) {
         if (!semesterData[semester]) continue;
 
@@ -130,54 +125,40 @@ function generateGradeInputs() {
     gradeForm.appendChild(submitButton);
 }
 
-// Function to calculate SGPA and CGPA
 function calculateSGPAAndCGPA() {
     const studentName = document.getElementById("student-name").value;
     const numSemesters = document.getElementById("num-semesters").value;
-    let totalWeightedPoints = 0;
+
     let totalCredits = 0;
-    let semesterResults = [];
+    let weightedGradePointsSum = 0;
+    let totalSemesterCredits = 0;
+    let totalSemesterGradePoints = 0;
 
     for (let semester = 1; semester <= numSemesters; semester++) {
         if (!semesterData[semester]) continue;
 
-        let semesterTotalPoints = 0;
-        let semesterTotalCredits = 0;
+        let semesterGradePointsSum = 0;
+        let semesterCredits = 0;
 
         const subjects = semesterData[semester];
         for (const [subject, credit] of Object.entries(subjects)) {
-            const gradeInput = document.getElementById(`grade-${semester}-${subject}`).value.toUpperCase();
-            const gradePoint = gradePoints[gradeInput];
-            if (gradePoint !== undefined) {
-                semesterTotalPoints += gradePoint * credit;
-                semesterTotalCredits += credit;
-            }
+            const grade = document.getElementById(`grade-${semester}-${subject}`).value.toUpperCase();
+            const gradePoint = gradePoints[grade] || 0;
+
+            semesterCredits += credit;
+            semesterGradePointsSum += (gradePoint * credit);
         }
 
-        const sgpa = semesterTotalCredits > 0 ? semesterTotalPoints / semesterTotalCredits : 0;
-        semesterResults.push({ semester, sgpa });
-        totalWeightedPoints += semesterTotalPoints;
-        totalCredits += semesterTotalCredits;
+        totalCredits += semesterCredits;
+        weightedGradePointsSum += semesterGradePointsSum;
+        totalSemesterCredits += semesterCredits;
+        totalSemesterGradePoints += semesterGradePointsSum;
     }
 
-    const cgpa = totalCredits > 0 ? totalWeightedPoints / totalCredits : 0;
+    const sgpa = (weightedGradePointsSum / totalCredits).toFixed(2);
+    const cgpa = (totalSemesterGradePoints / totalSemesterCredits).toFixed(2);
 
-    // Display results
-    displayResults(semesterResults, cgpa);
-}
-
-// Function to display SGPA and CGPA results
-function displayResults(semesterResults, cgpa) {
-    const sgpaDisplay = document.getElementById("sgpa-display");
-    const cgpaDisplay = document.getElementById("cgpa-display");
-
-    sgpaDisplay.innerHTML = "<strong>SGPA for Each Semester:</strong><ul>";
-    semesterResults.forEach(result => {
-        sgpaDisplay.innerHTML += `<li>Semester ${result.semester}: ${result.sgpa.toFixed(2)}</li>`;
-    });
-    sgpaDisplay.innerHTML += "</ul>";
-
-    cgpaDisplay.innerHTML = `<strong>CGPA: </strong>${cgpa.toFixed(2)}`;
-
+    document.getElementById("sgpa-display").innerHTML = `SGPA: ${sgpa}`;
+    document.getElementById("cgpa-display").innerHTML = `CGPA: ${cgpa}`;
     document.getElementById("results").style.display = "block";
 }
