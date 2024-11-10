@@ -1,6 +1,4 @@
 # grade.github.io g
-PUDUCHERRY TECHNOLOGICAL UNIVERSITY - CGPA, GPA, Percentage, and Classification Calculator for Computer Science Students
-
-This tool calculates a student's academic standing by providing CGPA, GPA, percentage, and final classification. Designed for Computer Science students, it allows input of semester grades, calculates weighted scores based on credits, and provides a detailed summary of each semester's GPA. The calculator also determines final classification (such as First Class or Distinction) based on overall performance and the number of attempts.
+Developed a user-friendly GPA & CGPA calculator web application for Computer Science students at Women's Engineering College, Puducherry, affiliated with Puducherry Technological University. This tool helps students easily input their course details, including credits and grades, to quickly calculate their GPA, CGPA, percentage, and class standing. By automating the calculation process, it makes tracking academic progress simpler and ensures students can accurately monitor their performance throughout their studies.
 
  Saravanan S.
