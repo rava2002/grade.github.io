@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Add responsive viewport meta tag -->
     <title>PUDUCHERRY TECHNOLOGICAL UNIVERSITY - CGPA, GPA, Percentage, and Class Calculator</title>
     <style>
-        /* Main page style */
+        /* General styles */
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
@@ -14,12 +15,11 @@
             background-color: #f0f4f8;
             color: #333;
         }
-        
-        /* Header style */
+
         h1 {
             text-align: center;
             color: #2c3e50;
-            font-size: 2em;
+            font-size: 1.8em; /* Smaller heading for better mobile fit */
             font-weight: bold;
             margin-bottom: 20px;
             background-color: #2980b9;
@@ -27,8 +27,7 @@
             padding: 15px;
             border-radius: 8px;
         }
-        
-        /* Semester section style */
+
         .semester-section {
             background-color: #ffffff;
             border: 1px solid #ccc;
@@ -37,25 +36,25 @@
             margin-bottom: 15px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
-        /* Table style */
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
+
         table, th, td {
             border: 1px solid #ddd;
             padding: 10px;
-            text-align: left;
+            text-align: center;
         }
+
         th {
             background-color: #3498db;
             color: white;
             font-weight: bold;
         }
-        
-        /* Select box style */
+
         select {
             width: 100%;
             padding: 8px;
@@ -63,8 +62,7 @@
             border-radius: 4px;
             background-color: #f9f9f9;
         }
-        
-        /* Button style */
+
         .add-semester {
             background-color: #2980b9;
             color: white;
@@ -74,12 +72,14 @@
             cursor: pointer;
             font-weight: bold;
             transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
         }
+
         .add-semester:hover {
             background-color: #216a94;
         }
-        
-        /* Results section style */
+
         #results {
             margin-top: 20px;
             background-color: #eaf2f8;
@@ -88,16 +88,14 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             color: #2c3e50;
         }
-        
-        /* Label style */
+
         label {
             font-weight: bold;
             margin-bottom: 8px;
             display: block;
             color: #34495e;
         }
-        
-        /* Student name input style */
+
         #studentName {
             width: 100%;
             padding: 12px;
@@ -108,35 +106,58 @@
             margin-bottom: 10px;
         }
 
-        /* Checkbox styling */
         input[type="checkbox"] {
             margin-right: 10px;
         }
-/* Footer styling */
-footer {
-    text-align: center;
-    margin-top: 30px;
-    padding: 15px;
-    font-size: 0.9em;
-    color: #333;
-    background-color: #e8f0fe; /* Soft blue background */
-    border-top: 2px solid #b0c4de; /* Light border at the top */
-    border-radius: 0 0 8px 8px; /* Rounded bottom corners */
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-}
 
-footer a {
-    color: #2980b9; /* Link color */
-    text-decoration: none;
-    font-weight: bold;
-}
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            font-size: 0.9em;
+            color: #333;
+            background-color: #e8f0fe;
+            border-top: 2px solid #b0c4de;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+        }
 
-footer a:hover {
-    color: #1c5d8a; /* Darker color on hover */
-    text-decoration: underline;
-}
-    </style>
-</head>
+        footer a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            color: #1c5d8a;
+            text-decoration: underline;
+        }
+
+        /* Responsive styling for mobile */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5em;
+            }
+            table, th, td {
+                font-size: 0.9em;
+            }
+            .add-semester {
+                font-size: 0.9em;
+                padding: 8px 10px;
+            }
+            #studentName {
+                font-size: 1em;
+                padding: 10px;
+            }
+            label {
+                font-size: 0.95em;
+            }
+            footer {
+                font-size: 0.85em;
+                padding: 10px;
+            }
+        }
+    </style>a
 
 </head>
 <body>
@@ -354,7 +375,7 @@ footer a:hover {
         }
     </script>
 	 <footer>
-        Saravanan
+         Saravanan.
     </footer>
 </body>
 </html>
