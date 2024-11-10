@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Add responsive viewport meta tag -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUDUCHERRY TECHNOLOGICAL UNIVERSITY - CGPA, GPA, Percentage, and Class Calculator</title>
     <style>
         /* General styles */
@@ -16,10 +16,9 @@
             color: #333;
         }
 
-        h1 {
+        h1, h3 {
             text-align: center;
             color: #2c3e50;
-            font-size: 1.8em; /* Smaller heading for better mobile fit */
             font-weight: bold;
             margin-bottom: 20px;
             background-color: #2980b9;
@@ -122,21 +121,10 @@
             box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
         }
 
-        footer a {
-            color: #2980b9;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        footer a:hover {
-            color: #1c5d8a;
-            text-decoration: underline;
-        }
-
         /* Responsive styling for mobile */
         @media (max-width: 600px) {
-            h1 {
-                font-size: 1.5em;
+            h1, h3 {
+                font-size: 1.2em;
             }
             table, th, td {
                 font-size: 0.9em;
@@ -145,27 +133,17 @@
                 font-size: 0.9em;
                 padding: 8px 10px;
             }
-            #studentName {
-                font-size: 1em;
-                padding: 10px;
-            }
-            label {
-                font-size: 0.95em;
-            }
-            footer {
-                font-size: 0.85em;
-                padding: 10px;
-            }
         }
-    </style>a
-
+    </style>
 </head>
 <body>
-    <h3>PUDUCHERRY TECHNOLOGICAL UNIVERSITY  </h3>
-    <h3>CGPA, GPA, Percentage, and Class Calculator for Computer Science Students </h3
+    <h3>PUDUCHERRY TECHNOLOGICAL UNIVERSITY</h3>
+    <h3>CGPA, GPA, Percentage, and Class Calculator for Computer Science Students ```html
+    </h3>
+    
     <div>
         <label>Student Name: 
-            <input type="text" id="studentName">
+            <input type="text" id="studentName" placeholder="Enter student name">
         </label>
     </div>
 
@@ -218,7 +196,7 @@
             },
             4: {
                 "MA206 Mathematics for Computing": 4,
-                "CS 208 Operating Systems": 3,
+                "CS208 Operating Systems": 3,
                 "CS209 Design and Analysis of Algorithms": 3,
                 "CS210 Database Management Systems": 3,
                 "CS211 Software Engineering": 4,
@@ -267,7 +245,7 @@
             const semesterContainer = document.getElementById('semesterContainer');
             const semesterCount = semesterContainer.children.length + 1;
             if (semesterCount > 8) {
-                alert("Maximum of 8 semesters reached.");
+                alert("Maximum of  8 semesters reached.");
                 return;
             }
 
@@ -288,14 +266,24 @@
                                 <td>${subject}</td>
                                 <td>${credits}</td>
                                 <td>
-                                    <select>
-                                        <option value="">Select Grade</option>
-                                        <option value="10">S</option>
-                                        <option value="9">A</option>
-                                        <option value="6">B</option>
-                                        <option value="5">C</option>
-                                        <option value="4">D</option>
-                                        <option value="0">F</option>
+                                    <select onchange="validateGrade(this, ${credits})">
+                                        ${credits === 0 ? `
+                                            <option value="">Select Grade</option>
+                                            <option value="0">P (Pass)</option>
+                                            <option value="0">F (Fail)</option>
+                                        ` : `
+                                            <option value="">Select Grade</option>
+                                            <option value="10">S</option>
+                                            <option value="9">A</option>
+                                            
+                                            <option value="8">B</option>
+                                           
+                                            <option value="7">C</option>
+											<option value="6">D</option>
+											<option value="5">E</option>
+                                           
+                                            <option value="0">F</option>
+                                        `}
                                     </select>
                                 </td>
                             </tr>
@@ -303,6 +291,16 @@
                     </tbody>
                 </table>`;
             semesterContainer.appendChild(semesterSection);
+        }
+
+        function validateGrade(selectElement, credits) {
+            if (credits === 0) {
+                const selectedValue = selectElement.value;
+                if (selectedValue !== "0") {
+                    alert(`For 0 credit subjects, only P or F grades are allowed.`);
+                    selectElement.value = "0";
+                }
+            }
         }
 
         function calculateResults() {
@@ -319,14 +317,17 @@
                 rows.forEach(row => {
                     const credits = parseFloat(row.cells[1].innerText);
                     const grade = parseFloat(row.querySelector('select').value) || 0;
-                    semesterCredits += credits;
-                    semesterPoints += credits * grade;
+
+                    if (credits > 0) {
+                        semesterCredits += credits;
+                        semesterPoints += credits * grade;
+                    }
                 });
 
                 totalCredits += semesterCredits;
                 totalPoints += semesterPoints;
 
-                const gpa = semesterCredits > 0 ? (semesterPoints / semesterCredits).toFixed(2) :  0;
+                const gpa = semesterCredits > 0 ? (semesterPoints / semesterCredits).toFixed(2) : 0;
                 semesterResults += `<tr><td>Semester ${Array.from(semesters).indexOf(semester) + 1}</td><td>${gpa}</td></tr>`;
             });
 
@@ -374,8 +375,8 @@
                 </table>`;
         }
     </script>
-	 <footer>
-         Saravanan.
+    <footer>
+        Saravanan.
     </footer>
 </body>
 </html>
