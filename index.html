@@ -2,34 +2,334 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGPA & CGPA Calculator</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>PUDUCHERRY TECHNOLOGICAL UNIVERSITY - CGPA, GPA, Percentage, and Class Calculator</title>
+    <style>
+        /* Main page style */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        
+        /* Header style */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background-color: #2980b9;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        /* Semester section style */
+        .semester-section {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Table style */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+        
+        /* Select box style */
+        select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        
+        /* Button style */
+        .add-semester {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .add-semester:hover {
+            background-color: #216a94;
+        }
+        
+        /* Results section style */
+        #results {
+            margin-top: 20px;
+            background-color: #eaf2f8;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            color: #2c3e50;
+        }
+        
+        /* Label style */
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+            color: #34495e;
+        }
+        
+        /* Student name input style */
+        #studentName {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+    </style>
+</head>
+
 </head>
 <body>
+    <h3>PUDUCHERRY TECHNOLOGICAL UNIVERSITY - CGPA, GPA, Percentage, and Class Calculator for Computer Science Students</h3>
+    
     <div>
-        <h1>SGPA & CGPA Calculator</h1>
-        <label for="student-name">Student Name: </label>
-        <input type="text" id="student-name" placeholder="Enter your name">
-
-        <label for="num-semesters">Number of Semesters: </label>
-        <input type="number" id="num-semesters" min="1" max="8" placeholder="Enter number of semesters">
-        <button onclick="generateGradeInputs()">Generate Grade Inputs</button>
-
-        <div id="grades-section" style="display:none;">
-            <form id="grade-form">
-                <!-- Subject grade inputs will be dynamically generated here -->
-            </form>
-            <button onclick="calculateSGPAAndCGPA()">Calculate SGPA & CGPA</button>
-        </div>
-
-        <div id="results" style="display:none;">
-            <h2>Results</h2>
-            <p id="sgpa-display"></p>
-            <p id="cgpa-display"></p>
-        </div>
+        <label>Student Name: 
+            <input type="text" id="studentName">
+        </label>
     </div>
 
-    <script src="script.js"></script>
+    <div>
+        <label>
+            <input type="checkbox" id="firstAttempt"> Passed all courses in the first attempt
+        </label>
+    </div>
+
+    <div id="semesterContainer">
+        <!-- Semesters will be dynamically added here -->
+    </div>
+
+    <button class="add-semester" onclick="addSemester()">Add Semester</button>
+    <button class="add-semester" onclick="calculateResults()">Calculate CGPA, GPA, Percentage, and Class</button>
+
+    <div id="results"></div>
+
+    <script>
+        // Predefined subjects and credits for each semester
+        const semesterData = {
+            1: {
+                "MA201 Mathematics I": 4,
+                "PH201 Physics": 4,
+                "CY201 Chemistry": 4,
+                "HS201 English for Communication": 3,
+                "ME201 Workshop and Manufacturing Practice": 1.5,
+                "PH202 Physics Laboratory": 1.5,
+                "CY202 Chemistry Laboratory": 1.5
+            },
+            2: {
+                "MA202 Mathematics II": 4,
+                "EE201 Basic Electrical Engineering": 4,
+                "CS201 Programming for Problem Solving": 3,
+                "ME202 Engineering Graphics and Computer Aided Drawing": 3,
+                "CE201 Environmental Science": 0,
+                "EE202 Basic Electrical Engineering Laboratory": 1.5,
+                "CS202 Programming Laboratory": 1.5
+            },
+            3: {
+                "SH201 Biology for Engineers": 2,
+                "EC235 Electronic Devices and Digital Systems": 3,
+                "CS203 Computer Organization and Architecture": 4,
+                "CS204 Data Structures": 3,
+                "CS205 Object Oriented Programming Languages": 3,
+                "EC236 Electronic Devices and Digital Systems Laboratory": 1.5,
+                "CS206 Data Structures Laboratory": 1.5,
+                "CS207 Object Oriented Programming Languages Laboratory": 1.5,
+                "SH202 Indian Constitution": 0
+            },
+            4: {
+                "MA206 Mathematics for Computing": 4,
+                "CS 208 Operating Systems": 3,
+                "CS209 Design and Analysis of Algorithms": 3,
+                "CS210 Database Management Systems": 3,
+                "CS211 Software Engineering": 4,
+                "CS212 Operating System Laboratory": 1.5,
+                "CS213 Design and Analysis of Algorithms Laboratory": 1.5,
+                "CS214 Database Management Systems Laboratory": 1.5
+            },
+            5: {
+                "HS202 Industrial Economics and Management": 3,
+                "CS215 Platform Technologies": 3,
+                "CS216 Computer Networks": 3,
+                "CS217 Automata Theory and Compiler Design": 4,
+                "CSYXX Professional Elective Course - I": 3,
+                "CS218 Platform Technologies Laboratory": 1.5,
+                "CS219 Computer Networks Laboratory": 1.5,
+                "SH203 Essence of Indian Traditional Knowledge": 0
+            },
+            6: {
+                "EP201 Entrepreneurship": 2,
+                "CS220 Microprocessors and Microcontrollers": 3,
+                "CS221 Web Technologies": 3,
+                "CS222 Information Security": 4,
+                "CSYXX Professional Elective Course - II": 3,
+                "CS223 Microprocessors Laboratory": 1.5,
+                "CS224 Web Technologies Laboratory": 1.5,
+                "SH204 Environmental Studies": 0
+            },
+            7: {
+                "CS300 Project Work": 6,
+                "CSYXX Professional Elective Course - III": 3,
+                "CSYXX Professional Elective Course - IV": 3,
+                "HS300 Human Values and Professional Ethics": 3,
+                "CSYXX Open Elective Course": 3,
+                "CS301 Project Work Laboratory": 1.5
+            },
+            8: {
+                "CS400 Major Project": 10,
+                "CSYXX Professional Elective Course - V": 3,
+                "CSYXX Professional Elective Course - VI": 3,
+                "HS400 Management and Entrepreneurship": 3,
+                "CSYXX Open Elective Course - II": 3
+            }
+        };
+
+        function addSemester() {
+            const semesterContainer = document.getElementById('semesterContainer');
+            const semesterCount = semesterContainer.children.length + 1;
+            if (semesterCount > 8) {
+                alert("Maximum of 8 semesters reached.");
+                return;
+            }
+
+            const semesterSection = document.createElement('div');
+            semesterSection.className = 'semester-section';
+            semesterSection.innerHTML = `<h3>Semester ${semesterCount}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Credits</th>
+                            <th>Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${Object.entries(semesterData[semesterCount]).map(([subject, credits]) => `
+                            <tr>
+                                <td>${subject}</td>
+                                <td>${credits}</td>
+                                <td>
+                                    <select>
+                                        <option value="">Select Grade</option>
+                                        <option value="10">S</option>
+                                        <option value="9">A</option>
+                                        <option value="6">B</option>
+                                        <option value="5">C</option>
+                                        <option value="4">D</option>
+                                        <option value="0">F</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>`;
+            semesterContainer.appendChild(semesterSection);
+        }
+
+        function calculateResults() {
+            const semesters = document.querySelectorAll('.semester-section');
+            let totalCredits = 0;
+            let totalPoints = 0;
+            let semesterResults = '';
+
+            semesters.forEach(semester => {
+                const rows = semester.querySelectorAll('tbody tr');
+                let semesterCredits = 0;
+                let semesterPoints = 0;
+
+                rows.forEach(row => {
+                    const credits = parseFloat(row.cells[1].innerText);
+                    const grade = parseFloat(row.querySelector('select').value) || 0;
+                    semesterCredits += credits;
+                    semesterPoints += credits * grade;
+                });
+
+                totalCredits += semesterCredits;
+                totalPoints += semesterPoints;
+
+                const gpa = semesterCredits > 0 ? (semesterPoints / semesterCredits).toFixed(2) :  0;
+                semesterResults += `<tr><td>Semester ${Array.from(semesters).indexOf(semester) + 1}</td><td>${gpa}</td></tr>`;
+            });
+
+            const cgpa = totalCredits > 0 ? (totalPoints / totalCredits).toFixed(2) : 0;
+            const percentage = ((cgpa - 0.5) * 10).toFixed(2);
+            const firstAttempt = document.getElementById('firstAttempt').checked;
+            let classification = '';
+
+            if (cgpa >= 8.5) {
+                classification = firstAttempt ? 'First Class with Distinction' : 'First Class';
+            } else if (cgpa >= 6.5) {
+                classification = 'First Class';
+            } else {
+                classification = 'Second Class';
+            }
+
+            document.getElementById('results').innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>CGPA</th>
+                            <th>Percentage</th>
+                            <th>Class</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${cgpa}</td>
+                            <td>${percentage}%</td>
+                            <td>${classification}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>GPA for Each Semester</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Semester</th>
+                            <th>GPA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${semesterResults}
+                    </tbody>
+                </table>`;
+        }
+    </script>
 </body>
 </html>
