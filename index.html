@@ -1,3 +1,10 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Women's Engineering College - CGPA, GPA, Percentage, and Class Calculator</title>
 <style>
     /* General styles */
     body {
@@ -121,9 +128,9 @@
     }
 
     /* Responsive styling for mobile */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
         h1, h3 {
-            font-size: 1.2em;
+            font-size: 1.5em;
         }
 
         table, th, td {
@@ -131,15 +138,81 @@
         }
 
         .add-semester {
-            font-size: 0.9em;
-            padding: 8px 10px;
+            font-size: 1em;
+            padding: 10px 15px;
         }
 
         #studentName {
             padding: 10px;
+            font-size: 1em;
+        }
+
+        .semester-section {
+            padding: 12px;
+        }
+
+        #results {
+            padding: 15px;
+            font-size: 1em;
+        }
+
+        footer {
+            font-size: 0.8em;
+            padding: 12px;
         }
     }
+
+    /* Responsive styling for very small screens (mobile portrait) */
+    @media (max-width: 480px) {
+        h1, h3 {
+            font-size: 1.2em;
+        }
+
+        table, th, td {
+            font-size: 0.8em;
+        }
+
+        .add-semester {
+            font-size: 0.9em;
+            padding: 8px 12px;
+        }
+
+        #studentName {
+            font-size: 1em;
+            padding: 8px;
+        }
+
+        .semester-section {
+            padding: 10px;
+        }
+
+        #results {
+            padding: 12px;
+            font-size: 0.9em;
+        }
+
+        footer {
+            font-size: 0.7em;
+            padding: 10px;
+        }
+    }
+
+    /* Mobile-friendly form element improvements */
+    input, select {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 1em;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+    }
 </style>
+
 
         
 </head>
